@@ -21,31 +21,27 @@ const country = document.querySelector("#Country");
 let rowArray = [];
 //state and element where we have to Edit
 let editing = false;
-let editElement;
-console.log(gender);
-//Class table to store the row data in object
-class Table {
-  constructor(
-    firstname,
-    lastname,
-    address,
-    pincode,
-    gender,
-    checkedFood,
-    state,
-    country
-  ) {
-    this.firstname = firstname;
-    this.lastname = lastname;
-    this.id = this.count;
-    this.address = address;
-    this.pincode = pincode;
-    this.gender = gender;
-    this.checkedFood = checkedFood;
-    this.state = state;
-    this.country = country;
-  }
-}
+// function  to store the row data in object
+let Table = function Table(
+  firstname,
+  lastname,
+  address,
+  pincode,
+  gender,
+  checkedFood,
+  state,
+  country
+) {
+  this.firstname = firstname;
+  this.lastname = lastname;
+  this.id = this.count;
+  this.address = address;
+  this.pincode = pincode;
+  this.gender = gender;
+  this.checkedFood = checkedFood;
+  this.state = state;
+  this.country = country;
+};
 
 // function to update the table as per elements present in the array
 function updateTable() {
@@ -84,7 +80,9 @@ function changeElement(element, checkedFood) {
 
 //create new element or call function to update exsiting element
 form.addEventListener("submit", function (e) {
-  e.preventDefault();
+  // return value is false if the event has been canceled
+  e.returnValue = false; //default has been prevented
+
   //Array to store choice of food
   const checkedFood = [];
   food.forEach(function (el) {
@@ -109,7 +107,7 @@ form.addEventListener("submit", function (e) {
       country.value
     );
     rowArray.push(row);
-  } else changeElement(editElement, checkedFood);
+  } else changeElement(checkedFood);
   firstname.value =
     lastname.value =
     address.value =
@@ -134,6 +132,7 @@ if (localArray) {
 }
 //reset Local Storage
 function reset() {
+  // Removes the key/value pair with the given key
   localStorage.removeItem("table");
   location.reload();
 }
